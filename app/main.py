@@ -1,15 +1,17 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from app.database import init_pool, close_pool
+from app.database import engine, Base
 from app.routers import leads
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Runs on startup — opens the DB connection pool
-    await init_pool()
+    # Creates all tables on startup if they don't already exist
+    Base.metadata.create_all(bind=engine)
+    print("✓ Database tables ready")
     yield
-    # Runs on shutdown — closes the pool cleanly
-    await close_pool()
+    # Nothing to clean up — SQLAlchemy manages the connection pool
+
 
 app = FastAPI(
     title="Sales CRM API",
@@ -21,6 +23,12 @@ app = FastAPI(
 # Register routers
 app.include_router(leads.router)
 
+
 @app.get("/")
 def root():
     return {"message": "Sales CRM API is running"}
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
