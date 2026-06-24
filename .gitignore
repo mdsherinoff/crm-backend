@@ -1,1 +1,56 @@
-*.env*
+# Environment variables — never commit credentials
+.env
+.env.*
+!.env.example
+
+# Python virtual environment
+venv/
+env/
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+*.egg
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Oracle wallet files — contain credentials
+wallet/
+*.sso
+*.p12
+*.jks
+cwallet.sso
+ewallet.p12
+tnsnames.ora
+sqlnet.ora
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Logs
+*.log
+logs/
+
+# Docker
+*.env.docker
+
+# Kafka / RabbitMQ local data (if running data volumes locally)
+kafka-data/
+rabbitmq-data/
+zookeeper-data/
